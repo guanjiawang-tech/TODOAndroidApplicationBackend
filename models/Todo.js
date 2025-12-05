@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const TodoSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  userId: { type: String, required: true },
   title: String,
   content: String,
   createdAt: { type: Date, default: Date.now },
@@ -11,4 +11,4 @@ const TodoSchema = new mongoose.Schema({
   repeatType: { type: Number, default: 0 } // 0 不重复, 1每天
 });
 
-module.exports = mongoose.model("Todo", TodoSchema);
+module.exports = mongoose.model("Todo", TodoSchema, "todos");
