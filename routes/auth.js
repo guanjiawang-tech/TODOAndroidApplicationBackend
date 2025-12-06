@@ -180,7 +180,8 @@ router.post("/insertTodo", async (req, res) => {
     deadline,
     status = 0,
     priority = 1,
-    repeatType = 0
+    repeatType = 0,
+    classify
   } = req.body;
 
   if (!userId || !title || !content) {
@@ -199,7 +200,8 @@ router.post("/insertTodo", async (req, res) => {
       deadline: deadline ? new Date(deadline) : null,
       status,
       priority,
-      repeatType
+      repeatType,
+      classify
     });
 
     const savedTodo = await newTodo.save();
