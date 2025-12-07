@@ -7,7 +7,10 @@ router.post("/repeatList", async (req, res) => {
   const { todoId, userId, date } = req.body;
 
   if (!todoId || !date || !userId) {
-    return res.status(400).json({ message: "传入参数不正确" });
+    return res.status(400).json({ 
+      code: false,
+      msg: "传入参数不正确" 
+    });
   }
 
   try {
@@ -22,7 +25,8 @@ router.post("/repeatList", async (req, res) => {
       });
       await record.save();
       return res.json({
-        message: "新记录已创建",
+        code: true,
+        msg: "新记录已创建",
         data: record
       });
     }
@@ -41,13 +45,17 @@ router.post("/repeatList", async (req, res) => {
     await record.save();
 
     res.json({
-      message: "更新成功",
+      code: true,
+      msg: "更新成功",
       data: record
     });
 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "服务器错误", error: err.message });
+    res.status(500).json({ 
+      msg: "服务器错误", 
+      error: err.msg 
+    });
   }
 });
 
@@ -58,7 +66,7 @@ router.get("/getAllRepeatList", async (req, res) => {
   if (!userId) {
     return res.status(400).json({
       code: false,
-      message: "缺少 userId 参数"
+      msg: "缺少 userId 参数"
     });
   }
 
@@ -66,13 +74,14 @@ router.get("/getAllRepeatList", async (req, res) => {
     const allRecords = await RepeatList.find({ userId }); // 直接查全部
 
     res.json({
-      message: "查询成功",
+      code: true,
+      msg: "查询成功",
       data: allRecords
     });
 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "服务器错误", error: err.message });
+    res.status(500).json({ msg: "服务器错误", error: err.msg });
   }
 });
 
