@@ -50,4 +50,20 @@ router.post("/repeatList", async (req, res) => {
   }
 });
 
+// 查询所有重复记录
+router.get("/getAllRepeatList", async (req, res) => {
+  try {
+    const allRecords = await RepeatList.find(); // 直接查全部
+
+    res.json({
+      message: "查询成功",
+      data: allRecords
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "服务器错误", error: err.message });
+  }
+});
+
 module.exports = router;
