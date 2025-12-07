@@ -4,10 +4,10 @@ const router = express.Router();
 
 // 添加或更新重复记录
 router.post("/repeatList", async (req, res) => {
-  const { todoId, date } = req.body;
+  const { todoId, userId, date } = req.body;
 
-  if (!todoId || !date) {
-    return res.status(400).json({ message: "todoId 和 date 必填" });
+  if (!todoId || !date || !userId) {
+    return res.status(400).json({ message: "传入参数不正确" });
   }
 
   try {
@@ -17,6 +17,7 @@ router.post("/repeatList", async (req, res) => {
     if (!record) {
       record = new RepeatList({
         todoId,
+        userId,
         date: [date]  // 存入新 date
       });
       await record.save();
@@ -52,8 +53,17 @@ router.post("/repeatList", async (req, res) => {
 
 // 查询所有重复记录
 router.get("/getAllRepeatList", async (req, res) => {
+  const { userId } = req.query;
+
+  if (!userId) {
+    return res.status(400).json({
+      code: false,
+      message: "缺少 userId 参数"
+    });
+  }
+
   try {
-    const allRecords = await RepeatList.find(); // 直接查全部
+    const allRecords = await RepeatList.find({ userId }); // 直接查全部
 
     res.json({
       message: "查询成功",
